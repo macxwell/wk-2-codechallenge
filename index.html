@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Hardware Shopping List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  
+  <h1 style="color:rgb(173, 151, 62);">MAXIMUM HARDWARE STORES</h1>
+    <div class="container">
+        <div class="input-container">
+            <input type="text" id="itemInput" placeholder="Enter item...">
+            <button id="addItemBtn">Add</button>
+        </div>
+        <ul id="itemList"></ul>
+        <div class="actions">
+            <button id="markPurchasedBtn">Mark Purchased</button>
+            <button id="clearListBtn">Clear List</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemInput = document.getElementById('itemInput');
+            const addItemBtn = document.getElementById('addItemBtn');
+            const itemList = document.getElementById('itemList');
+            const markPurchasedBtn = document.getElementById('markPurchasedBtn');
+            const clearListBtn = document.getElementById('clearListBtn');
+
+            addItemBtn.addEventListener('click', function() {
+                const newItemText = itemInput.value.trim();
+                if (newItemText !== '') {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${newItemText}</span>
+                        <button class="markBtn">Mark Purchased</button>
+                    `;
+                    itemList.appendChild(li);
+                    itemInput.value = '';
+                }
+            });
+
+            itemList.addEventListener('click', function(e) {
+                if (e.target.classList.contains('markBtn')) {
+                    const li = e.target.closest('li');
+                    li.classList.toggle('purchased');
+                    e.target.textContent = li.classList.contains('purchased') ? 'Unmark Purchased' : 'Mark Purchased';
+                }
+            });
+
+            markPurchasedBtn.addEventListener('click', function() {
+                const items = itemList.querySelectorAll('li');
+                items.forEach(item => {
+                    if (!item.classList.contains('purchased')) {
+                        item.classList.add('purchased');
+                        item.querySelector('.markBtn').textContent = 'Unmark Purchased';
+                    }
+                });
+            });
+
+            clearListBtn.addEventListener('click', function() {
+                itemList.innerHTML = '';
+            });
+        });
+        
+    </script>
+    <br>
+    <div style="color:rgb(172, 135, 49);">
+      <li>BUILDING MATERIALS</li>
+      <li>WINDOW AND SCREEN HARDWARE</li>
+      <li>CABINET AND FURNITURE HARDWARE</li>
+      <li>HANGING AND MOUNTING</li>
+      <li>SIGNS, LETTERS AND NUMBERS</li>
+    </div>
+    <div class="socials">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-solid fa-phone"></i>
+        <i class="fa-brands fa-linkedin"></i>
+        <i class="fa-brands fa-instagram"></i>
+
+</body>
+</html>
